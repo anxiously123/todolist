@@ -52,8 +52,17 @@ body {
   width: 100%;
   display: flex;
   align-items: center;
-  padding-top: 50px;
   flex-direction: column;
+}
+
+.smallHeader {
+  /* padding-top: 50px; */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: aqua;
+  padding: 20px;
 }
 
 .task {

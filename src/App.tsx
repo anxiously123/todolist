@@ -1,12 +1,14 @@
 import React, { FC, ChangeEvent, useState } from "react";
 import "./App.css";
 import TodoTask from "./Components/TodoTask";
-import { ITask } from "./Interfaces";
+import TodoTaskFinished from "./Components/FinishedTasks";
+import { FTask, ITask } from "./Interfaces";
 
 const App: FC = () => {
   const [task, setTask] = useState<string>("");
   const [deadline, setDealine] = useState<number>(0);
   const [todoList, setTodoList] = useState<ITask[]>([]);
+  const [todoListFinished, setTodoListFinished] = useState<ITask[]>([]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     if (event.target.name === "task") {
@@ -26,9 +28,13 @@ const App: FC = () => {
   const completeTask = (taskNameToDelete: string): void => {
     setTodoList(
       todoList.filter((task) => {
-        return task.taskName != taskNameToDelete;
+        return task.taskName !== taskNameToDelete;
       })
     );
+    const finishedTask = todoList.find((item: ITask) => {
+      return item.taskName === taskNameToDelete
+    });
+    setTodoListFinished([...todoListFinished, finishedTask!]);
   };
 
   return (
@@ -52,9 +58,16 @@ const App: FC = () => {
         </div>
         <button onClick={addTask}>Add Task</button>
       </div>
+      <div className="smallHeader">Opened Tasks</div>
       <div className="todoList">
         {todoList.map((task: ITask, key: number) => {
           return <TodoTask key={key} task={task} completeTask={completeTask} />;
+        })}
+      </div>
+      <div className="smallHeader">Finished Tasks</div>
+      <div className="todoListFinished">
+        {todoListFinished.map((task: ITask, key: number) => {
+          return <TodoTaskFinished key={key} task={task} />;
         })}
       </div>
     </div>
